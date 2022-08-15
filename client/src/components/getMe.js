@@ -1,17 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const GetMe = () => {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("/api/user", { withCredentials: true })
-      .then((res) => setUser(res.data));
-  }, []);
+  const {user} = useContext(AuthContext)
 
   const handleLogout = () => {
-    
     document.cookie = "token=; Max-Age=0; path=/;";
     window.location.href = "/";
   };
@@ -20,7 +14,6 @@ const GetMe = () => {
     <div>
       <h2>hello {user.email}! This is your home page!</h2>
       <br />
-
       <button onClick={handleLogout} style={{ margin: 10 }}>
         logout
       </button>

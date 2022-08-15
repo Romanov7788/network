@@ -101,6 +101,17 @@ class UserController {
       next(e);
     }
   }
+
+  async hasAccess(req, res, next) {
+    try {
+      const { token } = req.cookies;
+      console.log("tokenhasAccess ", token);
+      const user = await userService.hasAccess(token);
+      return res.json(user);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();

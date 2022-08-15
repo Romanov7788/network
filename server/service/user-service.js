@@ -74,6 +74,12 @@ class UserService {
     console.log("userData", user);
     return user;
   }
+
+  async hasAccess(token) {
+    const user = jwt.verify(token, config.JWT_ACCESS_KEY);
+    console.log("userDatahasAccess", user);
+    return user;
+  }
 }
 
 module.exports = new UserService();
