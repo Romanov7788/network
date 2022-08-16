@@ -5,6 +5,7 @@ const GetMe = () => {
 
   const {user} = useContext(AuthContext)
 
+
   const handleLogout = () => {
     document.cookie = "token=; Max-Age=0; path=/;";
     window.location.href = "/";
@@ -24,7 +25,7 @@ const GetMe = () => {
         <button style={{ margin: 10 }}>back</button>
       </a>
     </div>
-  ) : (
+  ) : ( 
     <p>something wrong</p>
   );
 };
