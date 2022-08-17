@@ -5,7 +5,6 @@ const router = new Router();
 const authMiddleware = require("../middlewares/auth-middleware");
 const ifAdminHasAccessToAdminPage = require("../middlewares/role-middleware");
 
-router.get("/", authMiddleware, userController.hasAccess);
 router.post("/registration", userController.registration);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);

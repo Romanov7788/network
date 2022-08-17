@@ -5,9 +5,10 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    
   
     useEffect(() => {
-      axios.get("http://localhost:3000/api/")
+      axios.get("http://localhost:3000/api/user")
       .then(response => {
         if (response.status === 200) setUser(response.data);
       })   
