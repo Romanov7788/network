@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, {useState, useContext} from "react";
-import { AuthContext } from "../context/AuthContext";
+import React, {useState} from "react";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +16,8 @@ const Login = () => {
     .then(function (response) {
       if (response.data.status === "success") {
         window.location.href = "/api/user";
+        const jwtoken = response.data.token;
+        localStorage.setItem("jwtoken", jwtoken);
       }
     })
     .catch((error) => {
