@@ -3,56 +3,49 @@ import React from "react";
 import Login from "./components/login";
 import GetMe from "./components/getMe";
 import Users from "./components/users";
-import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
 
+function App() {
+  const { user, admin } = useAuth();
 
-
-function App () {
-  
-  const hasAccess = () => {
-    const hasJwtoken = localStorage.getItem("jwtoken");
-    if (hasJwtoken) 
-    return true;
-  };
-
-
-  const showLoginPage = () => {
-    if (window.location.pathname === "/") {
+  const PrivatRoute = () => {
+    if (
+      !user &&
+      (window.location.pathname === "/" ||
+      window.location.pathname === "/api/user" ||
+      window.location.pathname === "/api/users")
+    ) {
       return <Login />;
+    } else if (
+      admin &&
+      (window.location.pathname === "/" ||
+        window.location.pathname === "/api/user")
+    ) {
+      return window.location.replace("/api/users");
+    } else if (!admin && window.location.pathname === "/") {
+      return window.location.replace("/api/user");
     }
   };
-  
+
   const showGetMePage = () => {
     if (window.location.pathname === "/api/user") {
-      return  (
-        hasAccess()
-        ? <GetMe/>
-        : window.location.replace("/")
-    )
-    }  
+      return <GetMe />;
+    }
   };
-  
-  const showUsersPage = () => {
+
+  const showAdminPage = () => {
     if (window.location.pathname === "/api/users") {
-      return  (
-        hasAccess()
-        ? <Users/>
-        : window.location.replace("/")
-    )
-    }  
+      return <Users />;
+    }
   };
-  
-  
-  
+
   return (
-    <AuthProvider>
-        <div className="App">
-        {showLoginPage()}
-        {showGetMePage()}
-        {showUsersPage()}
-        </div>
-      </AuthProvider>
-  )
+    <div>
+      {PrivatRoute()}
+      {showGetMePage()}
+      {showAdminPage()}
+    </div>
+  );
 }
 
 export default App;

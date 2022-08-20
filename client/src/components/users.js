@@ -26,6 +26,12 @@ const Users = () => {
     });
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("jwtoken");
+    document.cookie = "token=; Max-Age=0; path=/;";
+    window.location.href = "/";
+  };
+
   return users ? (
     <>
       {users.map((user) => (
@@ -44,7 +50,16 @@ const Users = () => {
           </ul>
         </div>
       ))}
+      <div>
+        <button onClick={handleLogout} style={{ margin: 10 }}>
+          logout
+        </button>
+      </div>
     </>
-  ) : null;
+  ) : (
+    <p>
+      <center>You don't have access! Please Login</center>
+    </p>
+  );
 };
 export default Users;

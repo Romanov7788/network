@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, {useState} from "react";
+import { useAuth } from "../context/AuthContext";
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setUser} = useAuth();
   
   
   const handleSubmit = (e) => {
@@ -15,9 +17,7 @@ const Login = () => {
     })
     .then(function (response) {
       if (response.data.status === "success") {
-        window.location.href = "/api/user";
-        const jwtoken = response.data.token;
-        localStorage.setItem("jwtoken", jwtoken);
+        setUser(response.data)
       }
     })
     .catch((error) => {
