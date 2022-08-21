@@ -27,7 +27,6 @@ const Users = () => {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("jwtoken");
     document.cookie = "token=; Max-Age=0; path=/;";
     window.location.href = "/";
   };
