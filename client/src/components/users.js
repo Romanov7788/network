@@ -28,7 +28,7 @@ const Users = () => {
 
   const handleLogout = () => {
     document.cookie = "token=; Max-Age=0; path=/;";
-    window.location.href = "/";
+    window.location.href = "/api/login";
   };
 
   return users ? (
