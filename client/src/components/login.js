@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Login = () => {
   const { setAuth } = useAuth();
+  const { setInformationAboutUser } = useAuth();
 
   const navigate = useNavigate();
     const location = useLocation();
@@ -15,18 +16,29 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const ROLES = {
+    Admin: "Admin",
+    User: "User",
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setInformationAboutUser(true)
+
+
     await axios.post("http://localhost:3000/api/login", {
       email,
       password,
     })
     .then(function (response) {
       if (response.data.status === "success") {
+        // window.location.href = "http://localhost:3000/api/user"
         const user = response.data
+        console.log(user)
         const roles = response.data.roles
-        setAuth({ user, roles });
+        const isAdminOrUSer = roles?.includes(ROLES.Admin || ROLES.User)
+        setAuth({ user, roles, isUser: isAdminOrUSer });
         navigate(from, { replace: true });
       }
     })

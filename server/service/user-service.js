@@ -19,7 +19,7 @@ class UserService {
     const user = await UserModel.create({
       email,
       password: hashPassword,
-      roles: [userRole.value],
+      roles: [ "User"],
     });
     const token = jwt.sign(
       { id: user.id, roles: user.roles, email: user.email },
@@ -63,10 +63,10 @@ class UserService {
     };
   }
 
-  async logout(refreshToken) {
-    const token = await tokenService.removeToken(refreshToken);
-    return token;
-  }
+  // async logout(refreshToken) {
+  //   const token 
+  //   return token;
+  // }
 
   async getMe(token) {
     const user = jwt.verify(token, config.JWT_ACCESS_KEY);

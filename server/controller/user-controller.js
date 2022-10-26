@@ -22,8 +22,9 @@ class UserController {
       }
       const { email, password } = req.body;
       const userData = await userService.registration(email, password);
+      console.log("1", userData)
       res.cookie("token", userData.token, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
       return res.json(userData.user);
@@ -37,8 +38,8 @@ class UserController {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
       res.cookie("token", userData.token, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: false,
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
       });
       return res.json(userData.user);
     } catch (e) {
@@ -48,9 +49,9 @@ class UserController {
   
   async logout(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
-      res.clearCookie("refreshToken");
+      const { token } = req.cookies;
+      const Token = await userService.logout(token);
+      res.clearCookie("token");
       return res.json(token);
     } catch (e) {
       next(e);
@@ -58,15 +59,7 @@ class UserController {
   }
   
   async refresh(req, res, next) {
-    // console.log("userDataref", req, res, next);
     try {
-      // const { refreshToken } = req.cookies;
-      // const userData = await userService.refresh(refreshToken);
-      // res.cookie("refreshToken", userData.refreshToken, {
-      //   maxAge: 30 * 24 * 60 * 60 * 1000,
-      //   httpOnly: true,
-      // });
-      // return res.json(userData);
     } catch (e) {
       next(e);
     }
@@ -96,17 +89,6 @@ class UserController {
     try {
       const { token } = req.cookies;
       const user = await userService.getMe(token);
-      return res.json(user);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async hasAccess(req, res, next) {
-    try {
-      const { token } = req.cookies;
-      console.log("tokenhasAccess ", token);
-      const user = await userService.hasAccess(token);
       return res.json(user);
     } catch (e) {
       next(e);

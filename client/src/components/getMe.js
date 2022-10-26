@@ -9,10 +9,11 @@ const GetMe = () => {
     document.cookie = "token=; Max-Age=0; path=/;";
     window.location.href = "/api/login";
   };
+  
 
   return auth ? (
     <div>
-      <h2>hello {auth.user.email}! This is your home page!</h2>
+      <h2>hello {auth?.user?.email}! This is your home page!</h2>
       <br />
       <button onClick={handleLogout} style={{ margin: 10 }}>
         logout
@@ -31,3 +32,4 @@ const GetMe = () => {
 };
 
 export default GetMe;
+
