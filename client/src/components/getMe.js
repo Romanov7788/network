@@ -1,39 +1,35 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Link} from 'react-router-dom';
 
 const GetMe = () => {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("/api/user", { withCredentials: true })
-      .then((res) => setUser(res.data));
-  }, []);
+  const {auth} = useAuth();
 
   const handleLogout = () => {
-    
     document.cookie = "token=; Max-Age=0; path=/;";
-    window.location.href = "/";
+    window.location.href = "/api/login";
   };
+  
 
-  return user ? (
+  return auth ? (
     <div>
-      <h2>hello {user.email}! This is your home page!</h2>
+      <h2>hello {auth?.user?.email}! This is your home page!</h2>
       <br />
-
       <button onClick={handleLogout} style={{ margin: 10 }}>
         logout
       </button>
-      <a href="/api/users">
-        <button style={{ margin: 10 }}>Admin</button>
-      </a>
+      <Link to="/api/users">Admin</Link>
+      {/* <a href="/api/users"> */}
+        {/* <button style={{ margin: 10 }}>Admin</button> */}
+      {/* </a> */}
       <a href="/">
         <button style={{ margin: 10 }}>back</button>
       </a>
     </div>
-  ) : (
+  ) : ( 
     <p>something wrong</p>
   );
 };
 
 export default GetMe;
+
